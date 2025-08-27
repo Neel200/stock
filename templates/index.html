@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@latest/dist/chartjs-adapter-luxon.min.js"></script>
+    
+
+
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar bg-body-tertiary justify-content-center">
+        <div class="container-fluid d-flex justify-content-center">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="search-tab" href="#">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="about-tab" href="#">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Home -->
+    <div id="tab-home" class="tab-content active animate__animated animate__fadeIn">
+        <div class="image-wrapper text-center">
+            <img src="{{ url_for('static', filename='1.png') }}" alt="Centered Image" class="img-fluid"
+                style="max-width: 43%; height: auto;" />
+            <div class="mt-4 p-3 bg-light rounded shadow-sm text">
+                <h2 class="mb-0">Stock Market Analysis</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div id="tab-search" class="tab-content">
+        <div class="container mt-5">
+            <h1>Stock Price Predictor (LSTM)</h1>
+
+            <div class="input-section">
+                <input type="text" id="companyNameInput" placeholder="Enter Company Name (e.g., Apple Inc.)">
+                <button id="predictButton">Predict Stock Price</button>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="spinner"></div>
+                <p>Loading and training model... This may take a moment.</p>
+            </div>
+
+            <div id="errorContainer" class="error-message hidden"></div>
+            <div class="row justify-content-center mt-4">
+                <div class="col text-center" id="searchResult">
+                    <!-- Results will appear here -->
+                </div>
+            </div>
+
+
+            <div id="results" class="hidden">
+                <h2>Prediction Results for <span id="companyNameDisplay"></span></h2>
+
+                <div class="metrics-section">
+                    <h3>Evaluation Metrics:</h3>
+                    <ul id="metricsList">
+                    </ul>
+                </div>
+
+                <div class="plots-section">
+                    <h3>Historical Performance:</h3>
+                    <div class="plot-container">
+                        <h4>Full Prediction Plot:</h4>
+                        <img id="fullPlot" src="" alt="Full Prediction Plot">
+                    </div>
+
+                    <div class="plot-container ch">
+                        <h4>Custom History Plot (Actual vs Predicted):</h4>
+                        <label for="historyTypeSelect">Select Type:</label>
+                        <select id="historyTypeSelect">
+                            <option value="years">Years</option>
+                            <option value="months">Months</option>
+                        </select>
+                        <label for="historyValueSelect">Select Duration:</label>
+                        <select id="historyValueSelect"></select>
+                        <button id="showHistoryPlotButton">Show Plot</button>
+                        <canvas id="customHistoryChart"></canvas>
+                    </div>
+
+                </div>
+
+                <div class="future-prediction-section">
+                    <h3>Future Price Forecast:</h3>
+                    <div class="forecast-options">
+                        <button class="forecast-btn" data-type="months" data-n="1">Next 1 Month</button>
+                        <button class="forecast-btn" data-type="months" data-n="3">Next 3 Months</button>
+                        <button class="forecast-btn" data-type="months" data-n="6">Next 6 Months</button>
+                        <button class="forecast-btn" data-type="year">Next 1 Year</button>
+                        <button class="forecast-btn" data-type="custom">Custom Range</button>
+                    </div>
+                    <div id="customRangeInput" class="hidden">
+                        <label for="startDate">Start Date:</label>
+                        <input type="date" id="startDate">
+                        <label for="endDate">End Date:</label>
+                        <input type="date" id="endDate">
+                        <button id="forecastCustomButton">Forecast Custom Range</button>
+                    </div>
+                    <div class="plot-container">
+                        <h4><span id="forecastTitle">Future Price Forecast</span>:</h4>
+                        <canvas id="futureChart"></canvas>
+                        <button id="resetZoomBtn" class="btn btn-outline-secondary btn-sm">Reset Zoom</button>
+                    </div>
+                    <div class="future-table-container">
+                        <h4>Upcoming Predictions:</h4>
+                        <table id="futurePredictionsTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Predicted Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About -->
+    <div id="tab-about" class="tab-content">
+        <h3><i class="bi bi-info-circle-fill"></i> About Us</h3>
+        <p style="text-align: center;">Learn more about StockEazy.</p>
+        <p style="text-align: center;">By Aranya Adhikary, Dipan Dutta, Shounak Dey, Subhon Sanyal.</p>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2025 StockEazy. All rights reserved.
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

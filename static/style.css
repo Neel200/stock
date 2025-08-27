@@ -1,0 +1,355 @@
+/* static/style.css */
+.fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(to bottom, #ffffff, #cbcbcb);
+      overflow-x: hidden;
+    }
+
+    nav.navbar {
+      z-index: 10;
+    }
+
+    .image-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: slideIn 1.5s ease-out forwards;
+      transform: translateX(-100vw);
+      overflow: hidden;
+    }
+
+    .image-wrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      margin-top: -8%;
+    }
+
+    @keyframes slideIn {
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    .container-fluid {
+      justify-content: center;
+    }
+
+    .text {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgb(0, 0, 0);
+      font-size: 24px;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 576px) {
+      .text {
+        font-size: 16px;
+        padding: 6px 12px;
+        top: 85%;
+      }
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+    }
+
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      border-width: 0.3rem;
+    }
+
+    .result-card {
+      border-radius: 15px;
+      background-color: #f8f9fa;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .result-card:hover {
+      transform: scale(1.02);
+    }
+
+    .result-card .card-body {
+      text-align: left;
+    }
+
+    /* .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+    } */
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 400px; /* This height was causing issues if applied to general plot-container */
+      margin-top: 20px;
+    }
+
+    .fade-chart {
+      animation: fadeInChart 0.5s ease-in-out;
+    }
+
+    @keyframes fadeInChart {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    #timeframeButtons .btn.active {
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+      transform: scale(1.05);
+      transition: all 0.2s ease-in-out;
+    }
+
+    #timeframeButtons .btn {
+      opacity: 0.8;
+      transition: all 0.2s ease-in-out;
+    }
+
+    #timeframeButtons .btn:hover {
+      opacity: 1;
+    }
+
+    #timeframeButtons .btn.active {
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
+      transform: scale(1.05);
+    }
+
+    /* Target specific charts for height */
+    #predictionChart,
+    #forecastChart,
+    #stockChart {
+      width: 100% !important;
+      height: 100% !important; /* This will make them fill the chart-container's height */
+      display: block;
+    }
+
+    /* Explicitly set height for customHistoryChart as requested */
+    #customHistoryChart {
+        width: 100% !important;
+        height: 400px !important; /* Set the exact height for this chart */
+        display: block;
+    }
+
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3, h4 {
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+input[type="text"],
+input[type="date"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 60%;
+    max-width: 300px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.loading {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+    color: #555;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007bff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.metrics-section, .plots-section, .future-prediction-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.metrics-section ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.metrics-section li {
+    background-color: #e9ecef;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.plot-container {
+    text-align: center;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.plot-container img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.forecast-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.forecast-btn {
+    flex-grow: 1;
+    max-width: 150px;
+    padding: 10px;
+}
+
+#customRangeInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#futurePredictionsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#futurePredictionsTable th, #futurePredictionsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#futurePredictionsTable th {
+    background-color: #f2f2f2;
+}
+#resetZoomButton{
+  margin-top: -15px;
+}
+#futureChart,
+#futureChartLSTM { /* Added #futureChartLSTM to apply same styling */
+  width: 100% !important;
+  height: 400px !important; /* Adjusted height from 400px to 300px */
+  max-height: 400px; /* Added max-height for extra control */
+  display: block;
+}
